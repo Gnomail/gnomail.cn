@@ -6,30 +6,17 @@
  * Time: 14:29
  */
 
-class IndexController{
+use Core\BaseController;
+
+
+class IndexController extends BaseController {
 
     public function IndexAction()
     {
+        $db = config('db');
 
-        $arr = array(
-            'news',
-            '2'
-        );
 
-        function haha($a,$b)
-        {
-            echo $a;
-            echo $b;
-        }
-
-        $a='';
-        foreach($arr as $v)
-        {
-            $a .= $v.',';
-        }
-        $a = rtrim($a,',');
-
-        haha($a);
+        $this->display('index.index');
     }
 
 

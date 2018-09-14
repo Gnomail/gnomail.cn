@@ -6,11 +6,14 @@
  * Time: 16:21
  */
 
-class ArticleController{
+use Core\BaseController;
 
-    public function detailAction($type)
+class ArticleController extends BaseController{
+
+
+    public function detailAction()
     {
-        print_r($type);
+
 
     }
 

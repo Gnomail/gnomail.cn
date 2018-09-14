@@ -8,8 +8,9 @@
 
 define('ROOT_PATH', dirname(__FILE__));
 
+require(ROOT_PATH.'/Config/config.php');
+require(ROOT_PATH.'/Core/autoload.php');
 require(ROOT_PATH.'/Core/Gnomail.php');
-
 
 (new Gnomail())->run();
 

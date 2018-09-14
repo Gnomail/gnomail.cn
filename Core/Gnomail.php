@@ -6,28 +6,32 @@
  * Time: 10:50
  */
 
+use Core\Request;
+use Core\MyConfig;
+
 class Gnomail{
 
 
     private function router()
     {
-        require(ROOT_PATH.'/Core/Route.class.php');
+        require(ROOT_PATH . '/Core/Route.php');
+        require(ROOT_PATH . '/Core/Request.php');
 
         $requestMethod = strtolower($_SERVER['REQUEST_METHOD']);
 
-        $pathInfo      = '/'.trim(explode('?',$_SERVER['REQUEST_URI'])[0],'/');
+        $pathInfo      = '/'.trim(explode('.',explode('?',$_SERVER['REQUEST_URI'])[0])[0],'/');
 
         $match         = Route::match($pathInfo,$requestMethod);
-        unset($match['param'][0]);
-        $router        = $match['router'];
 
+        $router        = $match['router'];
         $param         = $match['param'];
 
-        $param         = array_values($param);
+        Request::setParam($requestMethod,$param);
+
         $this->dispatcher($router,$param);
     }
 
-    private function dispatcher($router,$param=array())
+    private function dispatcher($router)
     {
         if(empty($router))
         {
@@ -56,7 +60,7 @@ class Gnomail{
                         $object = new $controller();
                         if(method_exists($object,$action))
                         {
-                            $object->$action($param);
+                            $object->$action();
                         }
                         else
                         {
@@ -82,7 +86,11 @@ class Gnomail{
 
     public function run()
     {
+        include_once(ROOT_PATH.'/Core/CoreFunction.php');
         include_once(ROOT_PATH.'/Library/Function.php');
+
+        MyConfig::initConfig();
+
         $this->router();
     }
 
